@@ -574,8 +574,8 @@ binaires contenant des nat. On souhaite avoir une représentation de
 l'arbre vide dans nBin. *)
 
 Inductive nBin : Type :=
-  feuille : nat 
-  arbre : nat -> nBin -> nBin.
+  nEmpty : nBin 
+  nNode : nat -> nBin -> nBin.
 
 
 
