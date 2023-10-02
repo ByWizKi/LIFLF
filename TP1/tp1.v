@@ -481,11 +481,12 @@ Fixpoint supprime_tout (e : nat) (l1 : nliste) : nliste :=
   match l1 with
   |vide => vide
   |cons x n => match (eqb x e) with
-               |true => supprime e n
-               |false => ajoute x (supprime e n)
+               |true => supprime_tout e n
+               |false => ajoute x (supprime_tout e n)
                end
   end.
 
+Compute(supprime_tout 2 (concat liste4 liste4)).
 
 (* EXERCICE A FAIRE CHEZ VOUS *)
 (* Écrire une fonction il_existe_pair: nliste -> bool, telle que
@@ -573,15 +574,17 @@ Compute (tri_insertion (concat liste4 liste4)).
 binaires contenant des nat. On souhaite avoir une représentation de
 l'arbre vide dans nBin. *)
 
+
+
 Inductive nBin : Type :=
-  nEmpty : nBin 
-  nNode : nat -> nBin -> nBin.
+  | nEmpty : nBin
+  | nNode : nBin -> nat -> nBin -> nBin.
 
 
 
 (* Donner un exemple d'arbre, disons à 5 éléments *)
 
-(*
+
 Definition a1 := nNode
                       (nNode nEmpty 2 nEmpty)
                       1
@@ -593,15 +596,23 @@ Definition a1 := nNode
 
 Check a1.
 Print a1.
-*)
 
 (* EXERCICE *)
 (* Définir la fonction nelements qui renvoie la liste des éléments
    contenus dans un arbre binaire de nat. Le faire naïvement avec un
    concat pour commencer. *)
+   
+Fixpoint nelements (abr : nBin) : nliste :=
+  match abr with
+  | nEmpty => vide
+  | nNode abrG x abrD => ajoute x (concat 
+                              (nelements abrG) 
+                              (nelements abrD))
+  end.
+
 
 (* RÉSULTAT ATTENDU : cons 1 (cons 2 (cons 3 (cons 4 (cons 5 vide)))) *)
-(* Compute (nelements a1).*)
+Compute (nelements a1).
 
 
 
@@ -609,24 +620,44 @@ Print a1.
 (* Définir la fonction nnelts qui renvoie le nombre de noeuds internes
    (portant une étiquette de type nat) dans un nBin. *)
 
+Fixpoint nnelts (abr : nBin) : nat :=
+  match abr with
+  |nEmpty => 0
+  |nNode abrG x abrD => 1 + nnelts abrG + nnelts abrD
+  end.
+
 (* RÉSULTAT ATTENDU : 5 *)
-(* Compute (nnelts a1).*)
+Compute (nnelts a1).
 
 
 
 (* EXERCICE A FAIRE CHEZ VOUS *)
 (* Définir la fonction nfeuilles qui renvoie le nombre de feuilles *)
 
+Fixpoint nfeuilles (abr : nBin) : nat :=
+  match abr with
+  |nEmpty => 1
+  |nNode abrG x abrD => nfeuilles abrG + nfeuilles abrD
+  end.
+
 (* RÉSULTAT ATTENDU : 6 *)
-(* Compute nfeuilles a1. *)
+Compute nfeuilles a1.
+
 
 
 (* EXERCICE A FAIRE CHEZ VOUS *)
 (* Définir la fonction nsum qui renvoie la somme des valeurs portées
    par les noeuds internes d'un nBin. *)
-
+   
+Fixpoint nsum (abr : nBin) : nat :=
+  match abr with
+  |nEmpty => 0
+  |nNode abrG x abrD => x + nsum abrG + nsum abrD
+  end.
+  
+  
 (* RÉSULTAT ATTENDU : 15 *)
-(* Compute (nsum a1).*)
+Compute (nsum a1).
 
 
 
