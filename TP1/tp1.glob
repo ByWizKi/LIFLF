@@ -1,0 +1,169 @@
+DIGEST 47c2ea11733d01d0596aa198db518053
+Ftp1
+def 567:567 <> a
+R571:573 Coq.Init.Datatypes <> nat ind
+def 592:592 <> b
+R596:598 Coq.Init.Datatypes <> nat ind
+R764:764 Coq.Init.Peano <> ::nat_scope:x_'+'_x not
+R763:763 tp1 <> a def
+R765:765 tp1 <> b def
+R849:849 Coq.Init.Peano <> ::nat_scope:x_'+'_x not
+R848:848 tp1 <> a def
+R850:850 tp1 <> b def
+R861:861 tp1 <> a def
+ind 1107:1110 <> jour
+constr 1126:1130 <> lundi
+constr 1143:1147 <> mardi
+constr 1160:1167 <> mercredi
+constr 1180:1184 <> jeudi
+constr 1197:1204 <> vendredi
+constr 1216:1221 <> samedi
+constr 1234:1241 <> dimanche
+R1134:1137 tp1 <> jour:1 ind
+R1151:1154 tp1 <> jour:1 ind
+R1171:1174 tp1 <> jour:1 ind
+R1188:1191 tp1 <> jour:1 ind
+R1207:1210 tp1 <> jour:1 ind
+R1225:1228 tp1 <> jour:1 ind
+R1245:1248 tp1 <> jour:1 ind
+def 1655:1666 <> jour_suivant
+R1673:1676 tp1 <> jour ind
+binder 1669:1669 <> j:3
+R1681:1684 tp1 <> jour ind
+R1697:1697 tp1 <> j:3 var
+R1708:1712 tp1 <> lundi constr
+R1717:1721 tp1 <> mardi constr
+R1727:1731 tp1 <> mardi constr
+R1736:1743 tp1 <> mercredi constr
+R1749:1756 tp1 <> mercredi constr
+R1761:1765 tp1 <> jeudi constr
+R1771:1775 tp1 <> jeudi constr
+R1780:1787 tp1 <> vendredi constr
+R1793:1800 tp1 <> vendredi constr
+R1805:1810 tp1 <> samedi constr
+R1816:1821 tp1 <> samedi constr
+R1826:1833 tp1 <> dimanche constr
+R1839:1846 tp1 <> dimanche constr
+R1851:1855 tp1 <> lundi constr
+R1916:1927 tp1 <> jour_suivant def
+R1929:1936 tp1 <> mercredi constr
+ind 2330:2337 <> booleens
+constr 2351:2354 <> Vrai
+constr 2369:2372 <> Faux
+R2358:2365 tp1 <> booleens:5 ind
+R2376:2383 tp1 <> booleens:5 ind
+def 2479:2481 <> non
+R2488:2495 tp1 <> booleens ind
+binder 2484:2484 <> a:7
+R2500:2507 tp1 <> booleens ind
+R2520:2520 tp1 <> a:7 var
+R2531:2534 tp1 <> Vrai constr
+R2539:2542 tp1 <> Faux constr
+R2548:2551 tp1 <> Faux constr
+R2556:2559 tp1 <> Vrai constr
+R2612:2614 tp1 <> non def
+R2662:2664 tp1 <> non def
+def 2746:2747 <> et
+R2754:2761 tp1 <> booleens ind
+binder 2750:2750 <> a:9
+R2769:2776 tp1 <> booleens ind
+binder 2765:2765 <> b:10
+R2781:2788 tp1 <> booleens ind
+R2801:2801 tp1 <> a:9 var
+R2812:2815 tp1 <> Faux constr
+R2820:2823 tp1 <> Faux constr
+R2829:2832 tp1 <> Vrai constr
+R2843:2843 tp1 <> b:10 var
+R2863:2866 tp1 <> Faux constr
+R2871:2874 tp1 <> Faux constr
+R2889:2892 tp1 <> Vrai constr
+R2897:2900 tp1 <> Vrai constr
+R2981:2982 tp1 <> et def
+R2984:2987 tp1 <> Vrai constr
+R2990:2991 tp1 <> et def
+R2993:2996 tp1 <> Faux constr
+R2998:3001 tp1 <> Vrai constr
+def 3085:3086 <> ou
+R3093:3100 tp1 <> booleens ind
+binder 3089:3089 <> a:13
+R3107:3114 tp1 <> booleens ind
+binder 3104:3104 <> b:14
+R3119:3126 tp1 <> booleens ind
+R3140:3140 tp1 <> a:13 var
+R3153:3156 tp1 <> Vrai constr
+R3161:3164 tp1 <> Vrai constr
+R3172:3175 tp1 <> Faux constr
+R3186:3186 tp1 <> b:14 var
+R3209:3212 tp1 <> Faux constr
+R3217:3220 tp1 <> Faux constr
+R3236:3239 tp1 <> Vrai constr
+R3244:3247 tp1 <> Vrai constr
+R3315:3316 tp1 <> et def
+R3318:3321 tp1 <> Vrai constr
+R3324:3325 tp1 <> ou def
+R3327:3330 tp1 <> Faux constr
+R3332:3335 tp1 <> Vrai constr
+ind 4260:4266 <> entiers
+constr 4280:4280 <> Z
+constr 4294:4297 <> Succ
+R4284:4290 tp1 <> entiers:17 ind
+R4308:4311 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4301:4307 tp1 <> entiers:17 ind
+R4312:4318 tp1 <> entiers:17 ind
+def 4333:4334 <> un
+R4340:4343 tp1 <> Succ constr
+R4345:4345 tp1 <> Z constr
+def 4359:4362 <> deux
+R4368:4371 tp1 <> Succ constr
+R4373:4374 tp1 <> un def
+def 4388:4392 <> trois
+R4398:4401 tp1 <> Succ constr
+R4403:4406 tp1 <> deux def
+def 5030:5033 <> plus
+R5040:5046 tp1 <> entiers ind
+binder 5036:5036 <> a:19
+R5054:5060 tp1 <> entiers ind
+binder 5050:5050 <> b:20
+R5065:5071 tp1 <> entiers ind
+R5084:5084 tp1 <> a:19 var
+R5095:5095 tp1 <> Z constr
+R5100:5100 tp1 <> b:20 var
+R5106:5109 tp1 <> Succ constr
+R5116:5119 tp1 <> Succ constr
+R5122:5125 tp1 <> plus:21 def
+R5129:5129 tp1 <> b:20 var
+ind 7702:7707 <> nliste
+constr 7723:7726 <> vide
+constr 7741:7744 <> cons
+R7730:7735 tp1 <> nliste:23 ind
+R7751:7754 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R7748:7750 Coq.Init.Datatypes <> nat ind
+R7761:7764 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R7755:7760 tp1 <> nliste:23 ind
+R7765:7770 tp1 <> nliste:23 ind
+def 7785:7790 <> liste0
+R7795:7798 tp1 <> vide constr
+def 7812:7817 <> liste1
+R7822:7825 tp1 <> cons constr
+R7829:7832 tp1 <> vide constr
+def 7846:7851 <> liste2
+R7856:7859 tp1 <> cons constr
+R7864:7867 tp1 <> cons constr
+R7871:7874 tp1 <> vide constr
+def 7889:7894 <> liste3
+R7899:7902 tp1 <> cons constr
+R7907:7910 tp1 <> cons constr
+R7915:7918 tp1 <> cons constr
+R7922:7925 tp1 <> vide constr
+def 7941:7946 <> liste4
+R7951:7954 tp1 <> cons constr
+R7959:7962 tp1 <> cons constr
+R7967:7970 tp1 <> cons constr
+R7975:7978 tp1 <> cons constr
+R7982:7985 tp1 <> vide constr
+R7997:8002 tp1 <> liste0 def
+R8011:8016 tp1 <> liste1 def
+R8025:8030 tp1 <> liste2 def
+R9332:9334 Coq.Init.Nat <> <> lib
+R9344:9346 Coq.Init.Nat <> eqb def
+R9363:9365 Coq.Init.Nat <> eqb def
