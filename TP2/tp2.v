@@ -55,11 +55,14 @@ match x with
 end.
 
 
-(*
-Theorem comp_alphabet_correct : False (* Remplacer ici *).
+Theorem comp_alphabet_correct : 
+
+forall (x : Alphabet) (y: Alphabet), 
+(comp_alphabet x y = true -> x = y)
+/\ 
+(comp_alphabet x y = false -> ~(x = y)).
 Proof.
 Admitted.
-*)
 
 (* On attend "false" comme résultat *)
 Compute (comp_alphabet a b). 
@@ -134,11 +137,15 @@ match x with
          end
 end.
 
-(*
-Theorem comp_option_nat_correct : False (* Remplacer ici *).
+
+Theorem comp_option_nat_correct : 
+forall(x : option nat) (y: option nat), 
+(comp_option_nat x y = true -> x = y )
+/\
+(comp_option_nat x y = false -> ~(x = y)).
 Proof.
 Admitted.
-*)
+
 
 (* Tests unitaires avec reflexivity *)
 
@@ -201,7 +208,6 @@ match p with
 end.
 
 
-
 Example fsta_ex1 : (fsta (a,b)) = a.
 Proof.
   cbv. reflexivity.
@@ -237,11 +243,14 @@ Qed.
 
 Definition comp_pair_nat (p1 : nat * nat) (p2 : nat * nat) : bool :=
 match p1 with 
-|
+|(x1, y1) => match p2 with
+             |(x2, y2) => (eqb x1 x2) && (eqb y1 y2)
+             end
+end.
 
 
 (* Tests unitaires avec reflexivity *)
-(*
+
 Example comp_pair_nat_ex1 : comp_pair_nat (0,1) (0,0) = false.
 Proof.
 cbv.
@@ -251,18 +260,20 @@ Example comp_pair_nat_ex2 : comp_pair_nat (0,1) (0,1) = true.
 Proof.
 reflexivity.
 Qed.
-*)
+
 
 (* EXERCICE *)
 (* Définir une fonction swap qui à la paire d'entiers (a,b) fait correspondre (b,a) *)
 
-(*
+Definition swap (p : nat * nat) : (nat * nat) :=
+match p with
+| (x, y) => (y, x)
+end.
+
 Example swap_ex1 : swap (1,2) = (2,1).
 Proof.
   cbv. reflexivity.
 Qed.
-*)
-
 
 (******************************************************************************)
 (* Recherche dans les listes d'entier  *)
@@ -291,20 +302,34 @@ Print list.
 (* Définir la fonction "concatene" qui prend en paramètres deux listes d'entiers
    (donc de type "list nat") et renvoie la concaténation de ces deux listes *)
 
-(*
+Fixpoint concatene (l1: list nat) (l2 : list nat) : list nat := 
+match l1 with
+| [] => l2
+| x::n => x :: (concatene n l2)
+end.
+
 Example concatene_ex1 : concatene [1;2;3] [4;5] = [1;2;3;4;5].
 Proof.
 cbv. reflexivity.
 Qed.
-*)
+
 
 (* EXERCICE *)
 (* Définir la fonction "appartient" qui prend en paramètres un entier
    n et une liste d'entiers (donc de type "list nat") et renvoie true
    si et seulement si n est dans la liste *)
+   
+Fixpoint appartient (e : nat) (l1 : list nat) : bool :=
+match l1 with
+|[] => false
+| x :: n => match eqb x e with
+            | true => true
+            | false => appartient e n
+            end
+end.
 
 (* Tests unitaires avec reflexivity *)
-(*
+
 Example appartient_ex1 : appartient 0 [1;3;0;5] = true.
 Proof.
 cbv. reflexivity.
@@ -314,7 +339,6 @@ Example appartient_ex2 : appartient 4 [1;3;0;5] = false.
 Proof.
 cbv. reflexivity.
 Qed.
-*)
 
 
 (******************************************************************************)
@@ -340,9 +364,20 @@ Qed.
    Les clés seront des Alphabet, les valeurs des nat.
 *)
 
+Fixpoint trouve (p : list (Alphabet*nat)) (k : Alphabet) : option nat :=
+match p with
+| [] => None
+| x::n => match x with
+          |(i,j) => match comp_alphabet i k with 
+                    |true => Some j
+                    | false => trouve n k
+                    end
+          end
+end. 
+
 
 (* Tests unitaires avec reflexivity *)
-(*
+
 Example trouve_ex1 :  trouve [(a,1); (b,2)] a = Some 1.
 Proof.
 cbv. reflexivity.
@@ -355,7 +390,7 @@ Example trouve_ex3 :  trouve [(a,2); (a,1)] b = None.
 Proof.
 cbv. reflexivity.
 Qed.
-*)
+
 
 
 (* FIN DU TP2 *)
@@ -381,7 +416,13 @@ Qed.
    - prouver comp_alphabet_correct : si comp_alphabet x y = true alors x = y
    - prouver comp_alphabet_complet : si x = y alors comp_alphabet x y = true
 *)
-
+(*
+Proof.
+  intros x y.
+  destruct (comp_alphabet x y) x=y.
+    reflexivity.
+    discriminate.
+Qed.*)
 
 
 (* EXERCICE *)
@@ -392,7 +433,11 @@ Qed.
 (* EXERCICE *)
 (* Compléter la preuve suivante
    HINT : "destruct x", "left" ou "right" pour "\/" *)
-Lemma alphabet_a_juste_deux_elements : forall x:Alphabet, x = a \/ x = b.
+Lemma alphabet_a_juste_deux_elements : 
+  forall x:Alphabet, x = a \/ x = b.
+  destruct x.
+  -left. reflexivity.
+  -right. reflexivity.
 Proof.
 Admitted.
 
