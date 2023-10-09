@@ -451,8 +451,12 @@ Admitted.
 
 (* EXERCICE *)
 (* Prouver le lemme suivant *)
-Lemma projection_product (A B : Type) : forall p:A*B, p = (fst p, snd p).
+Lemma projection_product (A B : Type) : 
+forall p:A*B, 
+p = (fst p, snd p).
 Proof.
+  intros [a b].
+  reflexivity.
 Admitted.
 
 
@@ -461,6 +465,17 @@ Admitted.
    Rappel. Une fonction f est une involution ssi quel que soit x, f(f(x)) = x
    HINT : pour p:A*B une paire, utiliser "destruct p" pour retrouver "(a,b)"
 *)
+
+Lemma swap_involutive (A B : Type) : 
+forall p : nat * nat,
+  swap (swap p) = p.
+  
+Proof.
+  intros [a b]. (* Introduire la paire (a, b) *)
+  unfold swap. (* Déplier la définition de la fonction swap *)
+  reflexivity. (* La preuve est terminée *)
+Qed.
+
 
 (* EXERCICE *)
 (* Enoncer et prouver la propriété que la fonction "comp_pair_nat" est correcte
