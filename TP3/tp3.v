@@ -130,47 +130,61 @@ Fixpoint trouve (assoc : list (Alphabet * nat)) (key : Alphabet) : option nat :=
 (* Définir le type "Automate" représentant ce quintuplet.
    Ce type aura un seul constructeur que l'on nommera "automate". *)
    
+
+  
 Inductive Automate : Type :=
-  |  K : list nat
-  |  Sigma : Alphabet
-  |  delta : nat -> Alphabet -> option nat
-  |  s : nat
-  |  F : list nat.
+  | automate : 
+       list nat 
+    -> list Alphabet 
+    -> (nat -> Alphabet -> option nat) 
+    -> nat 
+    -> list nat
+    -> Automate.
 
 (* EXERCICE *)
 (* Définir les 5 fonctions suivantes *)
 
 (* "etats" : prend en paramètre un automate et renvoie la liste des états *)
 
-Definition etats (Automate : M) : list nat :=
-  |
-  end.
+Definition etats (M : Automate) : list nat :=
+  match M with
+  | automate x _ _ _ _ => x 
+ end.
 
 (* "symboles" : prend en paramètre un automate et renvoie la liste des symboles de l'alphabet *)
 
-Definition symboles (Automate : M) : list Alphabet :=
- |
+Definition symboles (M : Automate) : list Alphabet :=
+  match M with
+  |automate _ x _ _ _ => x 
  end.
 
 (* "initial" : prend en paramètre un automate et renvoie l'état initial *)
-Definition initial (Automate : M) : nat :=
- |
+Definition initial (M : Automate) : nat :=
+ match M with 
+ | automate _ _ _ x _ => x
  end.
   
 (* "acceptant" : prend en paramètre un automate et un état q et renvoie true ssi q est un état final *)
-Definition acceptant (Automate : M) (q : nat) : booleens :=
- |
+Definition acceptant (M : Automate) (q : nat) : bool :=
+  match M with
+  | automate _ _ _ _ x => appartient_nat q x  
  end.
 
 (* "transition" : prend en paramètre un automate, un état, un symbole, et renvoie l'état (optionnellement)
    accessible depuis q en lisant c *)
+   
+Definition transition (M : Automate) (q : nat) (sig : Alphabet) : option nat :=
+  match M with
+  | automate _ _ delta _ _ => delta q sig
+ end. 
+
 
 
 (* EXERCICE *)
 (* Exemple : définir l'automate "M_nb_b_impair" à deux états qui accepte les mots contenant un nombre impair de 'b',
              et donner des tests unitaires.
              La fonction delta est donnée ci-dessous. *)
-
+             
 Definition delta_nb_b_impair (q : nat) (s : Alphabet) : option nat :=
 match q with
  | 1 => match s with
@@ -187,8 +201,18 @@ match q with
 end.
 Print delta_nb_b_impair.
 
+Definition K : list nat := [1;2].
+Definition Sigma : list Alphabet := [a;b].
+Definition s : nat := 1.
+Definition F : list nat := [2].
 
-(*
+
+Definition M_nb_b_impair : Automate := automate K Sigma  delta_nb_b_impair  s F.
+Check M_nb_b_impair.
+Print M_nb_b_impair.
+ 
+
+
 Example M_nb_b_impair_etats : etats M_nb_b_impair = [1;2].
 Proof.
 cbv. reflexivity.
@@ -217,41 +241,85 @@ Example M_nb_b_impair_transition_2 : transition M_nb_b_impair 2 b = Some 1.
 Proof.
 cbv. reflexivity.
 Qed.
-*)
+
 
 
 (* EXERCICE *)
 (* Définir "execute" qui prend en paramètre un automate, un état q et un mot w (une "list Alphabet"),
    et qui va calculer l'état d'arrivée, en partant de l'état q et en lisant le mot w *)
+   
+Fixpoint execute (M : Automate) (q : nat) (mot : list Alphabet) : option nat :=
+  match mot with 
+  | [] => Some q
+  | x::n => match transition M q x with 
+            | None => None 
+            | Some Qs => execute M Qs n 
+            end
+  end.
 
-
-(*
 Example M_nb_b_impair_execute_1 : execute M_nb_b_impair 1 [] = Some 1.
 cbv. reflexivity. Qed.
 Example M_nb_b_impair_execute_2 : execute M_nb_b_impair 1 [a;a;b;a;b;b] = Some 2.
 cbv. reflexivity. Qed.
-*)
 
 
 (* EXERCICE *)
 (* Définir "reconnait" qui prend en paramètre un automate et un mot w,
    et qui renvoie vrai si w est accepté par l'automate, faux sinon *)
+  
+Definition reconnait (M : Automate) (mot : list Alphabet) : bool :=
+  match M with
+  | automate K Sigma delta s F => match execute M s mot with
+                                  | None => false
+                                  | Some q => appartient_nat q F
+                                  end
+ end.
 
-
-(*
 Example M_nb_b_impair_reconnait_1 : reconnait M_nb_b_impair [] = false.
 cbv. reflexivity. Qed.
 Example M_nb_b_impair_reconnait_2 : reconnait M_nb_b_impair [a;a;b;a;b;b] = true.
 cbv. reflexivity. Qed.
-*)
-
 
 (* EXERCICE *)
 (* Exemple : définir l'automate "M_commence_et_finit_par_a" à trois états
              qui accepte les mots commençant et finissant par 'a',
              et donner des tests unitaires *)
+Definition K1 : list nat := [1;2;3].
+Definition Sigma1 : list Alphabet := [a;b].
+Definition s1 : nat := 1.
+Definition F1 : list nat := [2].
 
+Definition delta_fini_a (q : nat) (s : Alphabet) : option nat :=
+  match q with
+  | 1 => match s with
+        | a => Some 2
+        | b => Some 2
+        | _ => None
+        end
+  | 2 => match s with
+        | a => Some 2
+        | b => Some 3
+        | c => Some 3
+        end
+ | 3 => match s with
+        | a => Some 2
+        | b => Some 3
+        | c => Some 3
+        end
+ | _ => None
+end.
 
+Definition M_commence_et_finit_par_a : Automate := automate
+  K1
+  Sigma1 
+  delta_fini_a
+  s1
+  F1.
+  
+Example M_commence_et_finit_par_a_1 : reconnait M_commence_et_finit_par_a [] = false.
+cbv. reflexivity. Qed.
+Example M_commence_et_finit_par_a_2 : execute M_commence_et_finit_par_a 1 [a;a;b;a;b;a] = Some 2.
+cbv. reflexivity. Qed.
 
 
 (******************************************************************************)
@@ -294,7 +362,12 @@ delta(b,2) = 1
    None sinon.
    La liste est une liste de "((nat * Alphabet) * Alphabet)" et donc la clé est un "(nat * Alphabet)".
 *)
-
+Fixpoint
+Definition trouve_paire (l : list((nat * Alphabet) * Alphabet)) (cle : (nat * Alphabet)) : option Alphabet :=
+match l with
+  | [] => None
+  | ((u,v), w)::n => match cle with
+                     | (x, y) => match 
 
 (* EXERCICE *)
 (* En utilisant trouve_paire, définir une fonction "graphe_vers_fonction" qui transforme
