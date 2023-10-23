@@ -129,17 +129,38 @@ Fixpoint trouve (assoc : list (Alphabet * nat)) (key : Alphabet) : option nat :=
 (* EXERCICE *)
 (* Définir le type "Automate" représentant ce quintuplet.
    Ce type aura un seul constructeur que l'on nommera "automate". *)
+   
+Inductive Automate : Type :=
+  |  K : list nat
+  |  Sigma : Alphabet
+  |  delta : nat -> Alphabet -> option nat
+  |  s : nat
+  |  F : list nat.
 
 (* EXERCICE *)
 (* Définir les 5 fonctions suivantes *)
 
 (* "etats" : prend en paramètre un automate et renvoie la liste des états *)
 
+Definition etats (Automate : M) : list nat :=
+  |
+  end.
+
 (* "symboles" : prend en paramètre un automate et renvoie la liste des symboles de l'alphabet *)
 
-(* "initial" : prend en paramètre un automate et renvoie l'état initial *)
+Definition symboles (Automate : M) : list Alphabet :=
+ |
+ end.
 
+(* "initial" : prend en paramètre un automate et renvoie l'état initial *)
+Definition initial (Automate : M) : nat :=
+ |
+ end.
+  
 (* "acceptant" : prend en paramètre un automate et un état q et renvoie true ssi q est un état final *)
+Definition acceptant (Automate : M) (q : nat) : booleens :=
+ |
+ end.
 
 (* "transition" : prend en paramètre un automate, un état, un symbole, et renvoie l'état (optionnellement)
    accessible depuis q en lisant c *)
